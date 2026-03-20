@@ -4,6 +4,8 @@
 
 A single-binary local development environment providing Redis, S3, and SMTP servers with a web dashboard.
 
+(halfway through i remembered that docker compose is a thing but it's too late to stop)
+
 ## Features
 
 - **Redis** - Embedded Redis server (port 6379)
