@@ -1,0 +1,383 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DevStack Manager API",
+    "description": "API for managing local development services (Redis, S3, SMTP)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Dashboard server"
+    },
+    {
+      "url": "http://localhost:8081",
+      "description": "Logs server"
+    }
+  ],
+  "paths": {
+    "/api/status": {
+      "get": {
+        "summary": "Get service status",
+        "responses": {
+          "200": {
+            "description": "Service status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/redis/keys": {
+      "get": {
+        "summary": "List all Redis keys",
+        "responses": {
+          "200": {
+            "description": "Array of Redis keys",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/redis/{key}": {
+      "get": {
+        "summary": "Get Redis key value",
+        "parameters": [
+          { "name": "key", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Key value",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RedisKey" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Redis key",
+        "parameters": [
+          { "name": "key", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      }
+    },
+    "/api/redis/": {
+      "get": {
+        "summary": "Get Redis stats",
+        "responses": {
+          "200": {
+            "description": "Redis statistics",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RedisStats" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/redis/start": {
+      "post": {
+        "summary": "Start Redis",
+        "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/api/redis/stop": {
+      "post": {
+        "summary": "Stop Redis",
+        "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/api/redis/restart": {
+      "post": {
+        "summary": "Restart Redis",
+        "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/api/redis/save": {
+      "post": {
+        "summary": "Save Redis data",
+        "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/api/s3/buckets": {
+      "get": {
+        "summary": "List S3 buckets",
+        "responses": {
+          "200": {
+            "description": "Array of buckets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/S3Bucket" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/s3/bucket/{bucket}/objects": {
+      "get": {
+        "summary": "List objects in bucket",
+        "parameters": [
+          { "name": "bucket", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/S3Object" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/s3/": {
+      "get": {
+        "summary": "Get S3 stats",
+        "responses": {
+          "200": {
+            "description": "S3 statistics",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/S3Stats" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/s3/start": {
+      "post": { "summary": "Start S3", "responses": { "200": { "description": "Success" } } }
+    },
+    "/api/s3/stop": {
+      "post": { "summary": "Stop S3", "responses": { "200": { "description": "Success" } } }
+    },
+    "/api/s3/restart": {
+      "post": { "summary": "Restart S3", "responses": { "200": { "description": "Success" } } }
+    },
+    "/api/smtp/emails": {
+      "get": {
+        "summary": "List SMTP emails",
+        "responses": {
+          "200": {
+            "description": "Array of emails",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Email" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/smtp/email/{id}": {
+      "get": {
+        "summary": "Get email by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email content",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Email" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete email",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/api/smtp/": {
+      "get": {
+        "summary": "Get SMTP stats",
+        "responses": {
+          "200": {
+            "description": "SMTP statistics",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SMTPStats" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/smtp/start": {
+      "post": { "summary": "Start SMTP", "responses": { "200": { "description": "Success" } } }
+    },
+    "/api/smtp/stop": {
+      "post": { "summary": "Stop SMTP", "responses": { "200": { "description": "Success" } } }
+    },
+    "/api/smtp/restart": {
+      "post": { "summary": "Restart SMTP", "responses": { "200": { "description": "Success" } } }
+    },
+    "/api/smtp/clear": {
+      "post": { "summary": "Clear all emails", "responses": { "200": { "description": "Success" } } }
+    },
+    "/api/persist": {
+      "post": {
+        "summary": "Persist all data",
+        "description": "Save Redis and S3 data to disk",
+        "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/api/logs": {
+      "get": {
+        "summary": "Get all logs",
+        "responses": {
+          "200": {
+            "description": "Array of log entries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/logs/stream": {
+      "get": {
+        "summary": "Stream logs via SSE",
+        "description": "Server-Sent Events endpoint for real-time log streaming",
+        "responses": {
+          "200": {
+            "description": "SSE stream",
+            "content": {
+              "text/event-stream": {
+                "schema": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/logs/all": {
+      "get": {
+        "summary": "Get all logs from main server",
+        "responses": {
+          "200": {
+            "description": "Array of log entries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Status": {
+        "type": "object",
+        "properties": {
+          "redis": { "type": "string", "enum": ["running", "stopped"] },
+          "s3": { "type": "string", "enum": ["running", "stopped"] },
+          "smtp": { "type": "string", "enum": ["running", "stopped"] },
+          "dashboard": { "type": "string", "enum": ["running", "stopped"] }
+        }
+      },
+      "RedisStats": {
+        "type": "object",
+        "properties": {
+          "numKeys": { "type": "integer" },
+          "numCommands": { "type": "integer" },
+          "uptime": { "type": "string" },
+          "version": { "type": "string" }
+        }
+      },
+      "RedisKey": {
+        "type": "object",
+        "properties": {
+          "key": { "type": "string" },
+          "value": { "type": "string" }
+        }
+      },
+      "S3Stats": {
+        "type": "object",
+        "properties": {
+          "numBuckets": { "type": "integer" },
+          "numObjects": { "type": "integer" },
+          "totalSize": { "type": "integer" }
+        }
+      },
+      "S3Bucket": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "creationDate": { "type": "string" }
+        }
+      },
+      "S3Object": {
+        "type": "object",
+        "properties": {
+          "key": { "type": "string" },
+          "size": { "type": "integer" },
+          "lastModified": { "type": "string" }
+        }
+      },
+      "SMTPStats": {
+        "type": "object",
+        "properties": {
+          "numEmails": { "type": "integer" }
+        }
+      },
+      "Email": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "from": { "type": "string" },
+          "to": { "type": "array", "items": { "type": "string" } },
+          "subject": { "type": "string" },
+          "date": { "type": "string" },
+          "text": { "type": "string" },
+          "html": { "type": "string" }
+        }
+      }
+    }
+  }
+}

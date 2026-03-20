@@ -1,0 +1,28 @@
+redis:
+  port: 6379
+  host: 127.0.0.1
+  persist:
+    enabled: true
+    file: "~/.devstack/redis.dump"
+
+s3:
+  port: 9000
+  host: 127.0.0.1
+  persist:
+    enabled: true
+    directory: "~/.devstack/s3-data"
+
+smtp:
+  port: 1025
+  host: 127.0.0.1
+  persist:
+    enabled: true
+    directory: "~/.devstack/smtp-emails"
+
+dashboard:
+  port: 8080
+  host: 127.0.0.1
+
+persist:
+  enabled: true
+  dir: "~/.devstack"
