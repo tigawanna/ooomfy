@@ -1,4 +1,6 @@
-# DevStack Manager
+# OOOMFS
+
+> **⚠️ Experiment Notice:** This is an experimental project. API and behavior may change. Contributions and feedback welcome!
 
 A single-binary local development environment providing Redis, S3, and SMTP servers with a web dashboard.
 
@@ -232,6 +234,13 @@ internal/
 - [miniredis](https://github.com/alicebob/miniredis) - Embedded Redis
 - [gofakes3](https://github.com/johannesboyne/gofakes3) - S3 server
 - Go standard library - SMTP server
+
+## Contributing
+
+This is an experiment! If you find it useful (or broken), contributions are welcome:
+- Open issues for bugs or feature ideas
+- PRs for improvements
+- Feedback on API design and UX
 
 ## License
 
